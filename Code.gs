@@ -55,10 +55,11 @@ function create() {
   var activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   var gradeSheet = activeSpreadsheet.getSheetByName("Grade");
   var reportSheet = activeSpreadsheet.getSheetByName("Report");
-  var debug = false;
+  var grade_protect = true;
+  var report_protect = true;
 
   if (gradeSheet != null) {
-    if (!debug) {
+    if (grade_protect) {
       throw "Cannot overwrite existing Grade sheet"
     } else {
       gradeSheet.clear();
@@ -68,7 +69,7 @@ function create() {
   }
 
   if (reportSheet != null) {
-    if (!debug) {
+    if (report_protect) {
       throw "Cannot overwrite existing Report sheet"
     } else {
       reportSheet.clear();
@@ -236,7 +237,7 @@ function create() {
     reportSheet.getRange((extras + numStandards) * k + 2, 10, numStandards, 1)
       .setFormulaR1C1('=if(or(C[-4]="OK",C[-4]="-"), "-", if(C[-3]="OK",C[-8],"-"))');
     reportSheet.getRange((extras + numStandards) * k + 2, 11, numStandards, 1)
-      .setFormulaR1C1('=if(or(C[-4]="OK",C[-4]="-"), "-", if(C[-3]="OK",C[-9],"-"))');
+      .setFormulaR1C1('=if(or(C[-4]="OK",C[-4]="-"), "-", if(C[-7]="core", if(C[-3]="OK",C[-9],"-"), C[-9]))');
     reportSheet.getRange((extras + numStandards) * k + 2, 12, numStandards, 1)
       .setFormulaR1C1('=if(or(C[-4]="OK",C[-4]="-"), "-", if(C[-3]="OK",C[-10],"-"))');
     reportSheet.getRange((extras + numStandards) * k + 2, 13, numStandards, 1)
